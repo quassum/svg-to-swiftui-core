@@ -1,0 +1,47 @@
+{
+  "name": "svg-to-swiftui-core",
+  "version": "0.1.0",
+  "description": "Core package to convert SVG code to SwiftUI Shape structure.",
+  "main": "build/src/index.js",
+  "types": "build/src/index.d.ts",
+  "files": [
+    "build/src"
+  ],
+  "license": "MIT",
+  "keywords": [
+    "svg",
+    "swiftui",
+    "transpiler",
+    "swift",
+    "converter"
+  ],
+  "author": {
+    "name": "Antoni Silvestrovic",
+    "email": "antoni.silvestrovic@gmail.com",
+    "url": "https://antoni.ai"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "lint": "gts lint",
+    "clean": "gts clean",
+    "compile": "tsc",
+    "fix": "gts fix",
+    "prepare": "npm run compile",
+    "pretest": "npm run compile",
+    "posttest": "npm run lint"
+  },
+  "devDependencies": {
+    "@types/node": "^14.11.2",
+    "@types/prettier": "^2.1.6",
+    "gts": "^3.0.3",
+    "typescript": "^4.0.3"
+  },
+  "dependencies": {
+    "@prettier/plugin-swift": "github:prettier/plugin-swift",
+    "@types/hast": "^2.3.1",
+    "@types/svg-parser": "^2.0.1",
+    "hast-util-select": "^4.0.2",
+    "prettier": "^2.2.1",
+    "svg-parser": "^2.0.4"
+  }
+}
