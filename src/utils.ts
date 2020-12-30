@@ -1,5 +1,4 @@
-import {select} from 'hast-util-select';
-import {ElementNode, RootNode} from 'svg-parser';
+import {ElementNode, RootNode, TextNode} from 'svg-parser';
 import {SVGElementProperties} from './types';
 
 /**
@@ -49,12 +48,7 @@ export function convertToPixels(num: string | number) {
  * Extracts properties of the <svg> node.
  * @param svgJsonTree
  */
-export function extractSVGProperties(
-  svgJsonTree: RootNode
-): SVGElementProperties {
-  // Find the SVG element.
-  const svg = select('svg', svgJsonTree) as ElementNode;
-
+export function extractSVGProperties(svg: ElementNode): SVGElementProperties {
   // Extract needed properties.
   const viewBox = svg.properties?.viewBox;
   const width = svg.properties?.width;
@@ -83,4 +77,62 @@ export function extractSVGProperties(
       ? {x: vbx, y: vby, width: vbWidth, height: vbHeight} // If view box is provided, use this.
       : {x: 0, y: 0, width: widthUnit, height: heightUnit}, // Otherwise use width and height.
   };
+}
+
+/**
+ * Performs Breadth First Search (BFS) to find <svg> element
+ * @param rootNode Root node of given by SVG Parser
+ */
+export function getSVGElement(rootNode: RootNode): ElementNode | undefined {
+  const frontier: (RootNode | ElementNode | TextNode | string)[] = [rootNode];
+
+  // Run while there are nodes in the frontier
+  while (frontier.length > 0) {
+    // Get the first node so there is a FIFO queue.
+    const currentNode = frontier.shift();
+
+    // Ignore undefined and string nodes.
+    if (currentNode && typeof currentNode !== 'string') {
+      if (currentNode.type === 'root') {
+        // Only need children from the root node, so add them
+        // to frontier and continue.
+        frontier.push(...currentNode.children);
+        continue;
+      } else if (currentNode.type === 'element') {
+        // If the element node is the svg element, return it.
+        if (currentNode.tagName === 'svg') return currentNode;
+
+        // Otherwise push children to the frontier and continue.
+        frontier.push(...currentNode.children);
+        continue;
+      } else {
+        continue;
+      }
+    }
+  }
+
+  return undefined;
+}
+
+/**
+ * This function is used to cleanup expression like this: `0.5*width`.
+ * If the expression is `1*width` there is no reason to multiply it by
+ * 1, so we can just leave `width`. If the expression is `0*width`
+ * then there is no reason to keep `width` around, so it just becomes
+ * `0`.
+ * @param value Numberic value.
+ * @param suffix Variable suffix that is appended to the end (width,
+ * height, etc.)
+ */
+export function clampNormalisedSizeProduct(
+  value: number,
+  suffix: string
+): string {
+  if (value === 1) {
+    return suffix;
+  } else if (value === 0) {
+    return '0';
+  } else {
+    return `${value}*${suffix}`;
+  }
 }

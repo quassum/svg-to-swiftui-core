@@ -8,7 +8,7 @@ type StyleData = Record<string, string | number>;
  * @param element Element node which
  * @param options
  */
-export function extractStyleProps(element: ElementNode): StyleData {
+export function extractStyle(element: ElementNode): StyleData {
   const props = element.properties;
 
   if (props) {
@@ -52,7 +52,7 @@ export function parseStyle(style: string): StyleData {
  * style properties, i.e. `fill`, `color`, etc.
  * @param props Any properties from the HAST node.
  */
-function filterStyleProps(props: Properties): StyleData {
+export function filterStyleProps(props: Properties): StyleData {
   return Object.keys(props)
     .filter(key => stylePropertiesSet.has(key))
     .reduce((obj, key) => {

@@ -1,12 +1,19 @@
-import {ElementNode} from 'svg-parser';
+import {ElementNode, RootNode} from 'svg-parser';
 import {TranspilerOptions} from '../types';
+import handleCircleElement from './circleElementHandler';
+import handleGroupElement from './groupElementHandler';
+import handlePathElement from './pathElementHandler';
+import handleRectElement from './rectElementHandler';
 
 export function handleElement(
   element: ElementNode,
   options: TranspilerOptions
-) {
+): string {
   switch (element.tagName) {
     case 'g':
+      return handleGroupElement(element, options);
+
+    case 'svg':
       return handleGroupElement(element, options);
 
     case 'path':
@@ -17,5 +24,14 @@ export function handleElement(
 
     case 'rect':
       return handleRectElement(element, options);
+
+    default:
+      console.error(
+        [
+          `Element <${element.tagName}> is not supported!`,
+          'Please open a Github issue for this or send a PR with the implementation!',
+        ].join('\n')
+      );
+      return '\n';
   }
 }
