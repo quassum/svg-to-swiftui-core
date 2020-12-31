@@ -8,7 +8,7 @@ import handleRectElement from './rectElementHandler';
 export function handleElement(
   element: ElementNode,
   options: TranspilerOptions
-): string {
+): string[] {
   switch (element.tagName) {
     case 'g':
       return handleGroupElement(element, options);
@@ -32,6 +32,6 @@ export function handleElement(
           'Please open a Github issue for this or send a PR with the implementation!',
         ].join('\n')
       );
-      return '\n';
+      return [];
   }
 }

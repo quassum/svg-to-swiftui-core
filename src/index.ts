@@ -4,6 +4,7 @@ import {SwiftUIGeneratorConfig, TranspilerOptions} from './types';
 
 import {handleElement} from './elementHandlers';
 import {extractSVGProperties, getSVGElement} from './utils';
+import {DEFAULT_CONFIG} from './constants';
 
 /**
  * This function converts SVG string into SwiftUI
@@ -51,10 +52,10 @@ function swiftUIGenerator(
   const generatedBody = handleElement(svgElement, rootTranspilerOptions);
 
   // Inject generated body into the Shape struct template.
-  const fullSwiftUIShape = generateSwiftUIShape(
-    config?.structName || 'MyCustomShape',
-    generatedBody
-  );
+  const fullSwiftUIShape = generateSwiftUIShape(generatedBody, {
+    ...DEFAULT_CONFIG,
+    ...config,
+  });
 
   return fullSwiftUIShape;
 }

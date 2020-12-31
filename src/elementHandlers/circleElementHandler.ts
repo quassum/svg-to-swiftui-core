@@ -11,7 +11,7 @@ import {
 export default function handleCircleElement(
   element: ElementNode,
   options: TranspilerOptions
-): string {
+): string[] {
   const style = {
     ...options.parentStyle,
     ...extractStyle(element),
@@ -56,7 +56,8 @@ export default function handleCircleElement(
     const strHeight = clampNormalisedSizeProduct(SR.height!, 'height');
 
     // Generate SwiftUI string.
-    return `path.addEllipse(in: CGRect(x: ${strX}, y: ${strY}, width: ${strWidth}, height: ${strHeight}))`;
+    const CGRect = `CGRect(x: ${strX}, y: ${strY}, width: ${strWidth}, height: ${strHeight})`;
+    return [`path.addEllipse(in: ${CGRect})`];
   } else {
     throw new Error('Circle element has to some properties');
   }

@@ -1,5 +1,3 @@
-/* eslint-disable no-case-declarations */
-import {format} from 'mathjs';
 import {SVGPathData} from 'svg-pathdata';
 import {ElementNode} from 'svg-parser';
 import {TranspilerOptions} from '../types';
@@ -16,7 +14,7 @@ import {clampNormalisedSizeProduct, stringifyRectValues} from '../utils';
 export default function handlePathElement(
   element: ElementNode,
   options: TranspilerOptions
-): string {
+): string[] {
   const properties = element.properties as unknown;
 
   if (properties) {
@@ -33,9 +31,7 @@ export default function handlePathElement(
     console.log('Props', props);
 
     const pathData = new SVGPathData(props.d).toAbs();
-    const swiftString = convertPathToSwift(pathData.commands, options);
-
-    return swiftString;
+    return convertPathToSwift(pathData.commands, options);
   } else {
     throw new Error('Path element does not have any properties!');
   }
@@ -47,7 +43,7 @@ export default function handlePathElement(
  * @param options Transpiler options
  */
 const convertPathToSwift: SwiftGenerator<SVGCommand[]> = (data, options) => {
-  let swiftString = '';
+  const swiftAccumulator: string[] = [];
 
   console.log('Data points', data);
 
@@ -58,14 +54,14 @@ const convertPathToSwift: SwiftGenerator<SVGCommand[]> = (data, options) => {
       case SVGPathData.MOVE_TO: {
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
         const {type, relative, ...d} = el;
-        swiftString += generateMoveToSwift(d, options) + '\n';
+        swiftAccumulator.push(...generateMoveToSwift(d, options));
         break;
       }
       // Command L
       case SVGPathData.LINE_TO: {
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
         const {type, relative, ...d} = el;
-        swiftString += generateLineToSwift(d, options) + '\n';
+        swiftAccumulator.push(...generateLineToSwift(d, options));
         break;
       }
       // Command H
@@ -83,7 +79,7 @@ const convertPathToSwift: SwiftGenerator<SVGCommand[]> = (data, options) => {
       }
       // Command Z
       case SVGPathData.CLOSE_PATH: {
-        swiftString += generateClosePathSwift(null, options) + '\n';
+        swiftAccumulator.push(...generateClosePathSwift(null, options));
         break;
       }
       // Command Q
@@ -104,7 +100,7 @@ const convertPathToSwift: SwiftGenerator<SVGCommand[]> = (data, options) => {
       case SVGPathData.CURVE_TO: {
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
         const {type, relative, ...d} = el;
-        swiftString += generateCubicCurveSwift(d, options) + '\n';
+        swiftAccumulator.push(...generateCubicCurveSwift(d, options));
         break;
       }
       // Command S
@@ -124,7 +120,7 @@ const convertPathToSwift: SwiftGenerator<SVGCommand[]> = (data, options) => {
     }
   }
 
-  return swiftString;
+  return swiftAccumulator;
 };
 
 const generateMoveToSwift: SwiftGenerator<{x: number; y: number}> = (
@@ -142,7 +138,7 @@ const generateMoveToSwift: SwiftGenerator<{x: number; y: number}> = (
   const new_x = clampNormalisedSizeProduct(xy.x, 'width');
   const new_y = clampNormalisedSizeProduct(xy.y, 'height');
 
-  return `path.move(to: CGPoint(x: ${new_x}, y: ${new_y}))`;
+  return [`path.move(to: CGPoint(x: ${new_x}, y: ${new_y}))`];
 };
 
 const generateLineToSwift: SwiftGenerator<{x: number; y: number}> = (
@@ -160,11 +156,11 @@ const generateLineToSwift: SwiftGenerator<{x: number; y: number}> = (
   const new_x = clampNormalisedSizeProduct(xy.x, 'width');
   const new_y = clampNormalisedSizeProduct(xy.y, 'height');
 
-  return `path.addLine(to: CGPoint(x: ${new_x}, y: ${new_y}))`;
+  return [`path.addLine(to: CGPoint(x: ${new_x}, y: ${new_y}))`];
 };
 
 const generateClosePathSwift: SwiftGenerator<unknown> = (data, options) => {
-  return 'path.closeSubpath()';
+  return ['path.closeSubpath()'];
 };
 
 const generateCubicCurveSwift: SwiftGenerator<{
@@ -208,9 +204,11 @@ const generateCubicCurveSwift: SwiftGenerator<{
   const p3x_str = clampNormalisedSizeProduct(xy2.x, 'width');
   const p3y_str = clampNormalisedSizeProduct(xy2.y, 'height');
 
-  return [
+  const swiftString = [
     `path.addCurve(to: CGPoint(x: ${p1x_str}, y: ${p1y_str}),`,
     `control1: CGPoint(x: ${p2x_str}, y: ${p2y_str}),`,
     `control2: CGPoint(x: ${p3x_str}, y: ${p3y_str}))`,
-  ].join('');
+  ].join(' ');
+
+  return [swiftString];
 };

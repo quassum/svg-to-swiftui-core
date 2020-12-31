@@ -13,14 +13,15 @@ import {handleElement} from './index';
 export default function handleGroupElement(
   element: ElementNode | RootNode,
   options: TranspilerOptions
-): string {
+): string[] {
   const {children} = element;
   const style = element.type === 'element' ? extractStyle(element) : {};
 
   console.log(element);
 
   // For each child run the generator, accumulate swift string and return it.
-  let acc = '';
+  const acc: string[] = [];
+
   for (const child of children) {
     // TODO: Handle string children properly.
     if (typeof child === 'string') continue;
@@ -31,13 +32,13 @@ export default function handleGroupElement(
     console.log(child.tagName);
 
     // Append result to the accumulator.
-    acc += handleElement(child, {
-      ...options,
-      ...style,
-    });
-
-    // Add new line
-    acc += '\n';
+    acc.push(
+      ...handleElement(child, {
+        ...options,
+        ...style,
+      })
+    );
   }
+
   return acc;
 }
