@@ -54,14 +54,14 @@ export function parseStyle(style: string): StyleData {
  */
 export function filterStyleProps(props: Properties): StyleData {
   return Object.keys(props)
-    .filter(key => stylePropertiesSet.has(key))
+    .filter(key => StylePropertiesSet.has(key))
     .reduce((obj, key) => {
       obj[key] = props[key];
       return obj;
     }, {});
 }
 
-const stylePropertiesSet = new Set([
+export const StylePropertiesSet = new Set([
   'alignment-baseline',
   'baseline-shift',
   'clip', // Deprecated

@@ -6,7 +6,7 @@ import {TranspilerOptions} from '../types';
 import {SwiftGenerator} from './types';
 import {SVGPathAttributes} from '../svgTypes';
 import {SVGCommand} from 'svg-pathdata/lib/types';
-import {clampNormalisedSizeProduct} from '../utils';
+import {clampNormalisedSizeProduct, stringifyRectValues} from '../utils';
 
 /**
  * Converts SVG Path element to SwiftUI path string.
@@ -21,6 +21,12 @@ export default function handlePathElement(
 
   if (properties) {
     const props = properties as SVGPathAttributes;
+
+    if (!props.d) {
+      throw new Error(
+        'Parameter `d` has to be provided on the <path> element!'
+      );
+    }
 
     options.lastPathId++;
 
@@ -125,17 +131,16 @@ const generateMoveToSwift: SwiftGenerator<{x: number; y: number}> = (
   data,
   options
 ) => {
-  const {x, y} = data;
-  const fmtOpts = {
-    notation: 'fixed',
-    precision: options.precision,
-  };
+  const xy = stringifyRectValues(
+    {
+      x: data.x / options.viewBox.width,
+      y: data.y / options.viewBox.height,
+    },
+    options.precision
+  );
 
-  const px = parseFloat(format(x / options.viewBox.width, fmtOpts));
-  const py = parseFloat(format(y / options.viewBox.height, fmtOpts));
-
-  const new_x = clampNormalisedSizeProduct(px, 'width');
-  const new_y = clampNormalisedSizeProduct(py, 'height');
+  const new_x = clampNormalisedSizeProduct(xy.x, 'width');
+  const new_y = clampNormalisedSizeProduct(xy.y, 'height');
 
   return `path.move(to: CGPoint(x: ${new_x}, y: ${new_y}))`;
 };
@@ -144,17 +149,16 @@ const generateLineToSwift: SwiftGenerator<{x: number; y: number}> = (
   data,
   options
 ) => {
-  const {x, y} = data;
-  const fmtOpts = {
-    notation: 'fixed',
-    precision: options.precision,
-  };
+  const xy = stringifyRectValues(
+    {
+      x: data.x / options.viewBox.width,
+      y: data.y / options.viewBox.height,
+    },
+    options.precision
+  );
 
-  const px = parseFloat(format(x / options.viewBox.width, fmtOpts));
-  const py = parseFloat(format(y / options.viewBox.height, fmtOpts));
-
-  const new_x = clampNormalisedSizeProduct(px, 'width');
-  const new_y = clampNormalisedSizeProduct(py, 'height');
+  const new_x = clampNormalisedSizeProduct(xy.x, 'width');
+  const new_y = clampNormalisedSizeProduct(xy.y, 'height');
 
   return `path.addLine(to: CGPoint(x: ${new_x}, y: ${new_y}))`;
 };
@@ -171,29 +175,38 @@ const generateCubicCurveSwift: SwiftGenerator<{
   x: number;
   y: number;
 }> = (data, options) => {
-  let {x1, y1, x2, y2, x, y} = data;
-  const fmtOpts = {
-    notation: 'fixed',
-    precision: options.precision,
-  };
-
   // Convert raw values into width/height relative values.
-  x1 = parseFloat(format(x1 / options.viewBox.width, fmtOpts));
-  y1 = parseFloat(format(y1 / options.viewBox.height, fmtOpts));
+  const xy1 = stringifyRectValues(
+    {
+      x: data.x1 / options.viewBox.width,
+      y: data.y1 / options.viewBox.height,
+    },
+    options.precision
+  );
 
-  x2 = parseFloat(format(x2 / options.viewBox.width, fmtOpts));
-  y2 = parseFloat(format(y2 / options.viewBox.height, fmtOpts));
+  const xy2 = stringifyRectValues(
+    {
+      x: data.x2 / options.viewBox.width,
+      y: data.y2 / options.viewBox.height,
+    },
+    options.precision
+  );
 
-  x = parseFloat(format(x / options.viewBox.width, fmtOpts));
-  y = parseFloat(format(y / options.viewBox.height, fmtOpts));
+  const xy = stringifyRectValues(
+    {
+      x: data.x / options.viewBox.width,
+      y: data.y / options.viewBox.height,
+    },
+    options.precision
+  );
 
   // Prepare string values.
-  const p1x_str = clampNormalisedSizeProduct(x, 'width');
-  const p1y_str = clampNormalisedSizeProduct(y, 'height');
-  const p2x_str = clampNormalisedSizeProduct(x1, 'width');
-  const p2y_str = clampNormalisedSizeProduct(y1, 'height');
-  const p3x_str = clampNormalisedSizeProduct(x2, 'width');
-  const p3y_str = clampNormalisedSizeProduct(y2, 'height');
+  const p1x_str = clampNormalisedSizeProduct(xy.x, 'width');
+  const p1y_str = clampNormalisedSizeProduct(xy.y, 'height');
+  const p2x_str = clampNormalisedSizeProduct(xy1.x, 'width');
+  const p2y_str = clampNormalisedSizeProduct(xy1.y, 'height');
+  const p3x_str = clampNormalisedSizeProduct(xy2.x, 'width');
+  const p3y_str = clampNormalisedSizeProduct(xy2.y, 'height');
 
   return [
     `path.addCurve(to: CGPoint(x: ${p1x_str}, y: ${p1y_str}),`,

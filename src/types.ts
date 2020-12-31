@@ -1,6 +1,6 @@
 export interface SwiftUIGeneratorConfig {
   structName?: string;
-  decimalPoints?: number;
+  precision?: number;
   indentationSize?: number;
 }
 
@@ -10,7 +10,9 @@ export interface TranspilerOptions {
   viewBox: ViewBoxData;
   precision: number;
   lastPathId: number;
+  indentationSize: number;
   currentIndentationLevel: number;
+  parentStyle: Record<string, string | number>;
 }
 
 export interface ViewBoxData {

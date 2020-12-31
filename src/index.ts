@@ -1,6 +1,6 @@
 import {ElementNode, parse} from 'svg-parser';
 import {generateSwiftUIShape} from './stubs';
-import {SwiftUIGeneratorConfig} from './types';
+import {SwiftUIGeneratorConfig, TranspilerOptions} from './types';
 
 import {handleElement} from './elementHandlers';
 import {extractSVGProperties, getSVGElement} from './utils';
@@ -36,15 +36,21 @@ function swiftUIGenerator(
   config?: SwiftUIGeneratorConfig
 ): string {
   const svgProperties = extractSVGProperties(svgElement);
-  const rootTranspilerOptions = {
+
+  // The initial options passed to the first element.
+  const rootTranspilerOptions: TranspilerOptions = {
     ...svgProperties,
-    precision: config?.decimalPoints || 10,
+    precision: config?.precision || 10,
     lastPathId: 0,
+    indentationSize: config?.indentationSize || 4,
     currentIndentationLevel: 0,
+    parentStyle: {},
   };
 
+  // Generate SwiftUI Shape body.
   const generatedBody = handleElement(svgElement, rootTranspilerOptions);
 
+  // Inject generated body into the Shape struct template.
   const fullSwiftUIShape = generateSwiftUIShape(
     config?.structName || 'MyCustomShape',
     generatedBody

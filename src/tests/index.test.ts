@@ -1,4 +1,16 @@
+import {readFileSync} from 'fs';
+import {resolve} from 'path';
 import {convert} from '../index';
+
+const contentDirectory = resolve(process.cwd(), 'content');
+
+/**
+ * Will load a file from `content` directory in the root of
+ * the project.
+ * @param filename Name of the file to load
+ */
+const loadContentFile = (filename: string) =>
+  readFileSync(resolve(contentDirectory, filename), 'utf8');
 
 test('conversion-1', () => {
   const svgValue = `<svg width="300px" height="300px" viewBox="0 0 300 300" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
@@ -42,8 +54,18 @@ return path
 }`;
 
   const result = convert(svgValue, {
-    decimalPoints: 5,
+    precision: 5,
   });
 
+  expect(result).toBe(expectedResult);
+});
+
+test('convert-circle', () => {
+  const rawSVG = loadContentFile('circle.svg');
+  const expectedResult = loadContentFile('circle.swift');
+  const result = convert(rawSVG, {
+    precision: 2,
+    structName: 'CircleShape',
+  });
   expect(result).toBe(expectedResult);
 });

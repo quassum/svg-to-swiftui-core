@@ -5,6 +5,13 @@ interface SVGBaseAttributes {
 }
 
 export interface SVGPathAttributes extends SVGBaseAttributes {
-  d: string;
-  pathLength: string;
+  d?: string;
+  pathLength?: string;
+}
+
+export interface SVGCircleAttributes extends SVGBaseAttributes {
+  cx?: string;
+  cy?: string;
+  r?: string;
+  pathLength?: string;
 }

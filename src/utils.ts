@@ -1,5 +1,5 @@
 import {ElementNode, RootNode, TextNode} from 'svg-parser';
-import {SVGElementProperties} from './types';
+import {SVGElementProperties, ViewBoxData} from './types';
 
 /**
  * Converts number with unit suffix to pixels.
@@ -55,13 +55,13 @@ export function extractSVGProperties(svg: ElementNode): SVGElementProperties {
   const height = svg.properties?.height;
 
   // Throw if required properties are not provided.
-  if (!width || !height) {
-    throw new Error('Width and height must be provided on <svg> element!');
+  const sizeProvided = width && height;
+  const viewBoxProvided = !!viewBox;
+  if (!sizeProvided && !viewBoxProvided) {
+    throw new Error(
+      'Width and height or viewBox must be provided on <svg> element!'
+    );
   }
-
-  // Parse width and height with units.
-  const widthUnit = convertToPixels(width);
-  const heightUnit = convertToPixels(height);
 
   // Validiate and parse view box.
   const viewBoxElements = String(viewBox)
@@ -69,6 +69,10 @@ export function extractSVGProperties(svg: ElementNode): SVGElementProperties {
     .map(n => parseFloat(n));
   const [vbx, vby, vbWidth, vbHeight] = viewBoxElements;
   const viewBoxValid = viewBoxElements.every(value => !isNaN(value));
+
+  // Parse width and height with units.
+  const widthUnit = convertToPixels(width || vbWidth);
+  const heightUnit = convertToPixels(height || vbHeight);
 
   return {
     width: widthUnit,
@@ -125,14 +129,79 @@ export function getSVGElement(rootNode: RootNode): ElementNode | undefined {
  * height, etc.)
  */
 export function clampNormalisedSizeProduct(
-  value: number,
+  value: string,
   suffix: string
 ): string {
-  if (value === 1) {
+  if (parseFloat(value) === 1) {
     return suffix;
-  } else if (value === 0) {
+  } else if (parseFloat(value) === 0) {
     return '0';
   } else {
     return `${value}*${suffix}`;
+  }
+}
+
+interface RectOrPosition {
+  x: number;
+  y: number;
+  width?: number;
+  height?: number;
+}
+
+/**
+ * Normalises the position and size of the provided rectangle to span
+ * from 0 to 1 based on the viewBox of the <svg> element. Width and
+ * height are optional, so if only the position is required, then you
+ * can just provide the x and y values.
+ * @param rect ViewBox-like object with width and height being optional.
+ * @param viewBox View box of the SVG Element.
+ */
+export function normaliseRectValues(
+  rect: RectOrPosition,
+  viewBox: ViewBoxData
+): RectOrPosition {
+  if (rect.width && rect.height) {
+    return {
+      x: rect.x / viewBox.width,
+      y: rect.y / viewBox.height,
+      width: rect.width / viewBox.width,
+      height: rect.height / viewBox.height,
+    };
+  } else {
+    return {
+      x: rect.x / viewBox.width,
+      y: rect.y / viewBox.height,
+    };
+  }
+}
+
+interface RectOrPositionString {
+  x: string;
+  y: string;
+  width?: string;
+  height?: string;
+}
+
+export function stringifyRectValues(
+  rect: RectOrPosition,
+  precision: number
+): RectOrPositionString {
+  // Function to convert all numbers the same way.
+  const toFixed = (value: number) => {
+    return value.toFixed(precision).replace(/0+$/, '');
+  };
+
+  if (!rect.width || !rect.height) {
+    return {
+      x: toFixed(rect.x),
+      y: toFixed(rect.y),
+    };
+  } else {
+    return {
+      x: toFixed(rect.x),
+      y: toFixed(rect.y),
+      width: toFixed(rect.width),
+      height: toFixed(rect.height),
+    };
   }
 }
