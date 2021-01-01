@@ -29,3 +29,13 @@ test('convert-rectangle', () => {
   });
   expect(result).toBe(expectedResult);
 });
+
+test('convert-github-transat', () => {
+  const rawSVG = loadContentFile('transat.svg');
+  const expectedResult = loadContentFile('transat.swift');
+  const result = convert(rawSVG, {
+    precision: 6,
+    structName: 'GithubTransatShape',
+  });
+  expect(result).toBe(expectedResult);
+});
