@@ -15,3 +15,13 @@ export interface SVGCircleAttributes extends SVGBaseAttributes {
   r?: string;
   pathLength?: string;
 }
+
+export interface SVGRectAttributes extends SVGBaseAttributes {
+  x: string;
+  y: string;
+  width: string;
+  height: string;
+  rx: string;
+  ry: string;
+  pathLength: string;
+}
