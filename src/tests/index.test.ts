@@ -1,16 +1,5 @@
-import {readFileSync} from 'fs';
-import {resolve} from 'path';
 import {convert} from '../index';
-
-const contentDirectory = resolve(process.cwd(), 'content');
-
-/**
- * Will load a file from `content` directory in the root of
- * the project.
- * @param filename Name of the file to load
- */
-const loadContentFile = (filename: string) =>
-  readFileSync(resolve(contentDirectory, filename), 'utf8');
+import {loadContentFile} from './utils';
 
 test('conversion-1', () => {
   const rawSVG = loadContentFile('plusRounded.svg');
