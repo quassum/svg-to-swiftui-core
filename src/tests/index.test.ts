@@ -30,3 +30,13 @@ test('convert-circle', () => {
   });
   expect(result).toBe(expectedResult);
 });
+
+test('convert-rectangle', () => {
+  const rawSVG = loadContentFile('rect.svg');
+  const expectedResult = loadContentFile('rect.swift');
+  const result = convert(rawSVG, {
+    precision: 6,
+    structName: 'RectangleShape',
+  });
+  expect(result).toBe(expectedResult);
+});

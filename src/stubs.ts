@@ -9,9 +9,6 @@ export const generateSwiftUIShape = (
   const getInd = (indLevel: number) =>
     new Array(indLevel).fill(indStr).join('');
 
-  console.log('Indentation', indStr);
-  console.log('Indentation', getInd(4));
-
   const indentedBody = `${getInd(2)}${body.join(`\n${getInd(2)}`)}`;
 
   return [
