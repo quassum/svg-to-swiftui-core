@@ -1,10 +1,16 @@
 import {SVGPathData} from 'svg-pathdata';
 import {ElementNode} from 'svg-parser';
+
 import {TranspilerOptions} from '../types';
 import {SwiftGenerator} from './types';
+
 import {SVGPathAttributes} from '../svgTypes';
 import {SVGCommand} from 'svg-pathdata/lib/types';
-import {clampNormalisedSizeProduct, stringifyRectValues} from '../utils';
+
+import {generateMoveToSwift} from './pathElementGenerators/moveToGenerator';
+import {generateLineToSwift} from './pathElementGenerators/lineToGenerator';
+import {generateClosePathSwift} from './pathElementGenerators/closePathGenerator';
+import {generateCubicCurveSwift} from './pathElementGenerators/cubicCurveGenerator';
 
 /**
  * Converts SVG Path element to SwiftUI path string.
@@ -68,6 +74,7 @@ const convertPathToSwift: SwiftGenerator<SVGCommand[]> = (data, options) => {
       case SVGPathData.HORIZ_LINE_TO: {
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
         const {type, relative, ...d} = el;
+        console.error('Horizontal line is not supported yet');
         break;
       }
       // Command V
@@ -75,6 +82,7 @@ const convertPathToSwift: SwiftGenerator<SVGCommand[]> = (data, options) => {
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
         const {type, relative, ...d} = el;
         // TODO: Implement this commend
+        console.error('Vertical line is not supported yet');
         break;
       }
       // Command Z
@@ -87,6 +95,7 @@ const convertPathToSwift: SwiftGenerator<SVGCommand[]> = (data, options) => {
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
         const {type, relative, ...d} = el;
         // TODO: Implement this commend
+        console.error('Quad curve is not supported yet');
         break;
       }
       // Command T
@@ -94,6 +103,7 @@ const convertPathToSwift: SwiftGenerator<SVGCommand[]> = (data, options) => {
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
         const {type, relative, ...d} = el;
         // TODO: Implement this commend
+        console.error('Smooth quad is not supported yet');
         break;
       }
       // Command C
@@ -108,6 +118,7 @@ const convertPathToSwift: SwiftGenerator<SVGCommand[]> = (data, options) => {
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
         const {type, relative, ...d} = el;
         // TODO: Implement this commend
+        console.error('Smooth curve is not supported yet');
         break;
       }
       // Command A
@@ -115,101 +126,11 @@ const convertPathToSwift: SwiftGenerator<SVGCommand[]> = (data, options) => {
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
         const {type, relative, ...data} = el;
         // TODO: Implement this commend
+        console.error('Arc is not supported yet');
         break;
       }
     }
   }
 
   return swiftAccumulator;
-};
-
-const generateMoveToSwift: SwiftGenerator<{x: number; y: number}> = (
-  data,
-  options
-) => {
-  const xy = stringifyRectValues(
-    {
-      x: data.x / options.viewBox.width,
-      y: data.y / options.viewBox.height,
-    },
-    options.precision
-  );
-
-  const new_x = clampNormalisedSizeProduct(xy.x, 'width');
-  const new_y = clampNormalisedSizeProduct(xy.y, 'height');
-
-  return [`path.move(to: CGPoint(x: ${new_x}, y: ${new_y}))`];
-};
-
-const generateLineToSwift: SwiftGenerator<{x: number; y: number}> = (
-  data,
-  options
-) => {
-  const xy = stringifyRectValues(
-    {
-      x: data.x / options.viewBox.width,
-      y: data.y / options.viewBox.height,
-    },
-    options.precision
-  );
-
-  const new_x = clampNormalisedSizeProduct(xy.x, 'width');
-  const new_y = clampNormalisedSizeProduct(xy.y, 'height');
-
-  return [`path.addLine(to: CGPoint(x: ${new_x}, y: ${new_y}))`];
-};
-
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-const generateClosePathSwift: SwiftGenerator<unknown> = (_data, _options) => {
-  return ['path.closeSubpath()'];
-};
-
-const generateCubicCurveSwift: SwiftGenerator<{
-  x1: number;
-  y1: number;
-  x2: number;
-  y2: number;
-  x: number;
-  y: number;
-}> = (data, options) => {
-  // Convert raw values into width/height relative values.
-  const xy1 = stringifyRectValues(
-    {
-      x: data.x1 / options.viewBox.width,
-      y: data.y1 / options.viewBox.height,
-    },
-    options.precision
-  );
-
-  const xy2 = stringifyRectValues(
-    {
-      x: data.x2 / options.viewBox.width,
-      y: data.y2 / options.viewBox.height,
-    },
-    options.precision
-  );
-
-  const xy = stringifyRectValues(
-    {
-      x: data.x / options.viewBox.width,
-      y: data.y / options.viewBox.height,
-    },
-    options.precision
-  );
-
-  // Prepare string values.
-  const p1x_str = clampNormalisedSizeProduct(xy.x, 'width');
-  const p1y_str = clampNormalisedSizeProduct(xy.y, 'height');
-  const p2x_str = clampNormalisedSizeProduct(xy1.x, 'width');
-  const p2y_str = clampNormalisedSizeProduct(xy1.y, 'height');
-  const p3x_str = clampNormalisedSizeProduct(xy2.x, 'width');
-  const p3y_str = clampNormalisedSizeProduct(xy2.y, 'height');
-
-  const swiftString = [
-    `path.addCurve(to: CGPoint(x: ${p1x_str}, y: ${p1y_str}),`,
-    `control1: CGPoint(x: ${p2x_str}, y: ${p2y_str}),`,
-    `control2: CGPoint(x: ${p3x_str}, y: ${p3y_str}))`,
-  ].join(' ');
-
-  return [swiftString];
 };
