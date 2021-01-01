@@ -41,6 +41,7 @@
     "posttest": "npm run lint"
   },
   "devDependencies": {
+    "@types/hast": "^2.3.1",
     "@types/jest": "^26.0.19",
     "@types/node": "^14.11.2",
     "@types/prettier": "^2.1.6",
