@@ -53,7 +53,9 @@ const convertPathToSwift: SwiftGenerator<SVGCommand[]> = (data, options) => {
 
   console.log('Data points', data);
 
-  for (const el of data) {
+  for (let i = 0; i < data.length; i++) {
+    const el = data[i];
+
     // Handle data depending on command type.
     switch (el.type) {
       // Command M
@@ -117,14 +119,29 @@ const convertPathToSwift: SwiftGenerator<SVGCommand[]> = (data, options) => {
       case SVGPathData.SMOOTH_CURVE_TO: {
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
         const {type, relative, ...d} = el;
-        // TODO: Implement this commend
-        console.error('Smooth curve is not supported yet');
+        const prevElement = data[i - 1];
+
+        // Setup first control point
+        let x1 = d.x;
+        let y1 = d.y;
+
+        if (
+          prevElement.type === SVGPathData.CURVE_TO ||
+          prevElement.type === SVGPathData.SMOOTH_CURVE_TO
+        ) {
+          x1 = prevElement.x + (prevElement.x - prevElement.x2);
+          y1 = prevElement.y + (prevElement.y - prevElement.y2);
+        }
+
+        const swiftLines = generateCubicCurveSwift({...d, x1, y1}, options);
+
+        swiftAccumulator.push(...swiftLines);
         break;
       }
       // Command A
       case SVGPathData.ARC: {
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        const {type, relative, ...data} = el;
+        const {type, relative, ...d} = el;
         // TODO: Implement this commend
         console.error('Arc is not supported yet');
         break;
