@@ -1,4 +1,4 @@
-import {ElementNode, RootNode} from 'svg-parser';
+import {ElementNode} from 'svg-parser';
 import {TranspilerOptions} from '../types';
 import handleCircleElement from './circleElementHandler';
 import handleGroupElement from './groupElementHandler';

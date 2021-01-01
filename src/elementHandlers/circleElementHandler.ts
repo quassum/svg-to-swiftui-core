@@ -1,5 +1,4 @@
 import {ElementNode} from 'svg-parser';
-import {extractStyle} from '../styleUtils';
 import {SVGCircleAttributes} from '../svgTypes';
 import {TranspilerOptions} from '../types';
 import {
@@ -12,10 +11,11 @@ export default function handleCircleElement(
   element: ElementNode,
   options: TranspilerOptions
 ): string[] {
-  const style = {
-    ...options.parentStyle,
-    ...extractStyle(element),
-  };
+  // TODO: Add styles support
+  // const style = {
+  //   ...options.parentStyle,
+  //   ...extractStyle(element),
+  // };
 
   const props = element.properties;
 

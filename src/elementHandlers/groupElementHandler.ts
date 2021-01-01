@@ -3,7 +3,6 @@ import {extractStyle} from '../styleUtils';
 import {TranspilerOptions} from '../types';
 import {handleElement} from './index';
 
-// Handles 'g' svg element, returns generated swift string.
 /**
  * Transforms SVG group element into SwiftUI Shape by
  * accumulating subcomands of the children.
@@ -17,8 +16,6 @@ export default function handleGroupElement(
   const {children} = element;
   const style = element.type === 'element' ? extractStyle(element) : {};
 
-  console.log(element);
-
   // For each child run the generator, accumulate swift string and return it.
   const acc: string[] = [];
 
@@ -28,8 +25,6 @@ export default function handleGroupElement(
 
     // TODO: Handle TextNode children properly.
     if (child.type === 'text') continue;
-
-    console.log(child.tagName);
 
     // Append result to the accumulator.
     acc.push(

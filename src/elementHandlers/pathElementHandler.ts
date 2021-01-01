@@ -159,7 +159,8 @@ const generateLineToSwift: SwiftGenerator<{x: number; y: number}> = (
   return [`path.addLine(to: CGPoint(x: ${new_x}, y: ${new_y}))`];
 };
 
-const generateClosePathSwift: SwiftGenerator<unknown> = (data, options) => {
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+const generateClosePathSwift: SwiftGenerator<unknown> = (_data, _options) => {
   return ['path.closeSubpath()'];
 };
 
