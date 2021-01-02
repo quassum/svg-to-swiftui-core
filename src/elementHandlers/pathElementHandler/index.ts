@@ -11,6 +11,7 @@ import {generateMoveToSwift} from './moveToGenerator';
 import {generateLineToSwift} from './lineToGenerator';
 import {generateClosePathSwift} from './closePathGenerator';
 import {generateCubicCurveSwift} from './cubicCurveGenerator';
+import {generateQuadCurveSwift} from './quadCurveGenerator';
 
 /**
  * Converts SVG Path element to SwiftUI path string.
@@ -144,16 +145,27 @@ const convertPathToSwift: SwiftGenerator<SVGCommand[]> = (data, options) => {
       case SVGPathData.QUAD_TO: {
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
         const {type, relative, ...d} = el;
-        // TODO: Implement this commend
-        console.error('Quad curve is not supported yet');
+        swiftAccumulator.push(...generateQuadCurveSwift(d, options));
         break;
       }
       // Command T
       case SVGPathData.SMOOTH_QUAD_TO: {
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
         const {type, relative, ...d} = el;
-        // TODO: Implement this commend
-        console.error('Smooth quad is not supported yet');
+        const prevElement = data[i - 1];
+
+        // Setup first control point
+        let x1 = d.x;
+        let y1 = d.y;
+
+        if (prevElement.type === SVGPathData.QUAD_TO) {
+          x1 = prevElement.x + (prevElement.x - prevElement.x1);
+          y1 = prevElement.y + (prevElement.y - prevElement.y1);
+        }
+
+        swiftAccumulator.push(
+          ...generateQuadCurveSwift({...d, x1, y1}, options)
+        );
         break;
       }
       // Command C
