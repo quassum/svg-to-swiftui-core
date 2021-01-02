@@ -76,15 +76,63 @@ const convertPathToSwift: SwiftGenerator<SVGCommand[]> = (data, options) => {
       case SVGPathData.HORIZ_LINE_TO: {
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
         const {type, relative, ...d} = el;
-        console.error('Horizontal line is not supported yet');
+
+        let y = 0;
+
+        for (let li = i - 1; li >= 0; li--) {
+          const prevElement = data[li];
+
+          if (
+            prevElement.type === SVGPathData.MOVE_TO ||
+            prevElement.type === SVGPathData.LINE_TO ||
+            prevElement.type === SVGPathData.VERT_LINE_TO ||
+            prevElement.type === SVGPathData.CURVE_TO ||
+            prevElement.type === SVGPathData.SMOOTH_CURVE_TO ||
+            prevElement.type === SVGPathData.QUAD_TO ||
+            prevElement.type === SVGPathData.SMOOTH_QUAD_TO
+          ) {
+            y = prevElement.y;
+            break;
+          } else if (prevElement.type === SVGPathData.HORIZ_LINE_TO) {
+            continue;
+          } else {
+            break;
+          }
+        }
+
+        swiftAccumulator.push(...generateLineToSwift({x: d.x, y}, options));
         break;
       }
       // Command V
       case SVGPathData.VERT_LINE_TO: {
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
         const {type, relative, ...d} = el;
-        // TODO: Implement this commend
-        console.error('Vertical line is not supported yet');
+
+        let x = 0;
+
+        // Go backwards until a command with x value is fonud.
+        for (let li = i - 1; li >= 0; li--) {
+          const prevElement = data[li];
+
+          if (
+            prevElement.type === SVGPathData.MOVE_TO ||
+            prevElement.type === SVGPathData.LINE_TO ||
+            prevElement.type === SVGPathData.HORIZ_LINE_TO ||
+            prevElement.type === SVGPathData.CURVE_TO ||
+            prevElement.type === SVGPathData.SMOOTH_CURVE_TO ||
+            prevElement.type === SVGPathData.QUAD_TO ||
+            prevElement.type === SVGPathData.SMOOTH_QUAD_TO
+          ) {
+            x = prevElement.x;
+            break;
+          } else if (prevElement.type === SVGPathData.VERT_LINE_TO) {
+            continue;
+          } else {
+            break;
+          }
+        }
+
+        swiftAccumulator.push(...generateLineToSwift({x, y: d.y}, options));
         break;
       }
       // Command Z
