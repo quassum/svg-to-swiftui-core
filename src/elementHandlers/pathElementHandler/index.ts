@@ -1,16 +1,16 @@
 import {SVGPathData} from 'svg-pathdata';
 import {ElementNode} from 'svg-parser';
 
-import {TranspilerOptions} from '../types';
-import {SwiftGenerator} from './types';
+import {TranspilerOptions} from '../../types';
+import {SwiftGenerator} from '../types';
 
-import {SVGPathAttributes} from '../svgTypes';
+import {SVGPathAttributes} from '../../svgTypes';
 import {SVGCommand} from 'svg-pathdata/lib/types';
 
-import {generateMoveToSwift} from './pathElementGenerators/moveToGenerator';
-import {generateLineToSwift} from './pathElementGenerators/lineToGenerator';
-import {generateClosePathSwift} from './pathElementGenerators/closePathGenerator';
-import {generateCubicCurveSwift} from './pathElementGenerators/cubicCurveGenerator';
+import {generateMoveToSwift} from './moveToGenerator';
+import {generateLineToSwift} from './lineToGenerator';
+import {generateClosePathSwift} from './closePathGenerator';
+import {generateCubicCurveSwift} from './cubicCurveGenerator';
 
 /**
  * Converts SVG Path element to SwiftUI path string.
