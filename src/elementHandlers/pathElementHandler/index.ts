@@ -35,8 +35,6 @@ export default function handlePathElement(
 
     options.lastPathId++;
 
-    console.log('Props', props);
-
     const pathData = new SVGPathData(props.d).toAbs();
     return convertPathToSwift(pathData.commands, options);
   } else {
@@ -51,8 +49,6 @@ export default function handlePathElement(
  */
 const convertPathToSwift: SwiftGenerator<SVGCommand[]> = (data, options) => {
   const swiftAccumulator: string[] = [];
-
-  console.log('Data points', data);
 
   for (let i = 0; i < data.length; i++) {
     const el = data[i];
