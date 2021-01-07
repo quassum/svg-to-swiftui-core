@@ -22,6 +22,19 @@ You can run the tests by running following command:
 
 `npm test`
 
+## Roadmap
+
+- [x] SVG `<path>` element (except arc command)
+- [x] SVG `<circle>` element
+- [x] SVG `<rect>` element
+- [ ] Fill/stroke styling with colours
+- [ ] SVG `<text>` element
+- [ ] SVG `<ellipse>` element
+- [ ] SVG `<g>` element with autmatic grouping into sub-paths in SwiftUI
+- [ ] SVG `<polygon>` element
+- [ ] SVG `<polyline>` element
+- [ ] Automatic animation support
+
 ## Built With
 
 This project relies on following npm packages:
