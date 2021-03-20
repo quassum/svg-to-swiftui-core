@@ -39,3 +39,23 @@ test('convert-github-transat', () => {
   });
   expect(result).toBe(expectedResult);
 });
+
+test('convert-f', () => {
+  const rawSVG = loadContentFile('f.svg');
+  const expectedResult = loadContentFile('f.swift');
+  const result = convert(rawSVG, {
+    precision: 6,
+    structName: 'FaIcon',
+  });
+  expect(result).toBe(expectedResult);
+});
+
+test('convert-ln', () => {
+  const rawSVG = loadContentFile('ln.svg');
+  const expectedResult = loadContentFile('ln.swift');
+  const result = convert(rawSVG, {
+    precision: 6,
+    structName: 'LnIcon',
+  });
+  expect(result).toBe(expectedResult);
+});
