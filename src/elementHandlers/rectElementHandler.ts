@@ -20,7 +20,7 @@ export default function handleRectElement(
   const props = element.properties;
 
   if (props) {
-    const circleProps = (props as unknown) as SVGRectAttributes;
+    const circleProps = props as unknown as SVGRectAttributes;
 
     // Set default values
     circleProps.x = circleProps.x || '0';

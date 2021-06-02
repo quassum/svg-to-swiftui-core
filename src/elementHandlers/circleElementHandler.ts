@@ -20,7 +20,7 @@ export default function handleCircleElement(
   const props = element.properties;
 
   if (props) {
-    const circleProps = (props as unknown) as SVGCircleAttributes;
+    const circleProps = props as unknown as SVGCircleAttributes;
 
     // Check if required properties are provided.
     if (!circleProps.cx || !circleProps.cy || !circleProps.r) {
