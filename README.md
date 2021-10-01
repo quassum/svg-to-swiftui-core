@@ -32,9 +32,9 @@ You can run the tests by running following command:
 - [x] SVG `<path>` element (except arc command)
 - [x] SVG `<circle>` element
 - [x] SVG `<rect>` element
+- [x] SVG `<ellipse>` element
 - [ ] Fill/stroke styling with colours
 - [ ] SVG `<text>` element
-- [ ] SVG `<ellipse>` element
 - [ ] SVG `<g>` element with autmatic grouping into sub-paths in SwiftUI
 - [ ] SVG `<polygon>` element
 - [ ] SVG `<polyline>` element

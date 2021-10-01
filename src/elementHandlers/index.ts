@@ -1,6 +1,7 @@
 import {ElementNode} from 'svg-parser';
 import {TranspilerOptions} from '../types';
 import handleCircleElement from './circleElementHandler';
+import handleEllipseElement from './ellipseElementHandler';
 import handleGroupElement from './groupElementHandler';
 import handlePathElement from './pathElementHandler';
 import handleRectElement from './rectElementHandler';
@@ -24,6 +25,9 @@ export function handleElement(
 
     case 'rect':
       return handleRectElement(element, options);
+
+    case 'ellipse':
+      return handleEllipseElement(element, options);
 
     default:
       console.error(
