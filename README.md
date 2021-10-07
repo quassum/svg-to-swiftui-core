@@ -38,6 +38,7 @@ You can run the tests by running following command:
 - [ ] SVG `<g>` element with autmatic grouping into sub-paths in SwiftUI
 - [ ] SVG `<polygon>` element
 - [ ] SVG `<polyline>` element
+- [ ] AVG `<arc>` element
 - [ ] Automatic animation support
 
 ## Built With
