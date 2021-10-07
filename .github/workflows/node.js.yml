@@ -24,6 +24,7 @@ jobs:
       uses: actions/setup-node@v1
       with:
         node-version: ${{ matrix.node-version }}
-    - run: yarn ci
+    - run: rm -rf node_modules
+    - run: yarn install --frozen-lockfile
     - run: yarn build --if-present
     - run: yarn test
