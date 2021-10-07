@@ -30,6 +30,7 @@
   "homepage": "https://github.com/quassummanus/svg-to-swiftui-core#readme",
   "scripts": {
     "test": "jest",
+    "coverage": "jest --ci --coverage",
     "lint": "gts lint",
     "clean": "gts clean",
     "compile": "tsc",

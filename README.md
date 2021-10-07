@@ -1,5 +1,6 @@
 # SVG to SwiftUI Converter Core
 
+[![Build](https://img.shields.io/github/workflow/status/quassummanus/svg-to-swiftui-core/Node.js%20CI)](https://github.com/quassummanus/svg-to-swiftui-core/actions)
 [![Version](https://img.shields.io/npm/v/svg-to-swiftui-core.svg)](https://npmjs.org/package/svg-to-swiftui-core)
 [![Downloads/week](https://img.shields.io/npm/dw/svg-to-swiftui-core.svg)](https://npmjs.org/package/svg-to-swiftui-core)
 [![License](https://img.shields.io/npm/l/svg-to-swiftui-core.svg)](LICENSE.md)
