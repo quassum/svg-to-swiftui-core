@@ -5,6 +5,7 @@ import {SwiftUIGeneratorConfig, TranspilerOptions} from './types';
 import {handleElement} from './elementHandlers';
 import {extractSVGProperties, getSVGElement} from './utils';
 import {DEFAULT_CONFIG} from './constants';
+import {optimize} from 'svgo';
 
 /**
  * This function converts SVG string into SwiftUI
@@ -16,7 +17,11 @@ export function convert(
   rawSVGString: string,
   config?: SwiftUIGeneratorConfig
 ): string {
-  const AST = parse(rawSVGString);
+  const optimisedSVGString = config?.disableOptimization
+    ? rawSVGString
+    : optimize(rawSVGString).data;
+
+  const AST = parse(optimisedSVGString);
   const svgElement = getSVGElement(AST);
   if (svgElement) {
     return swiftUIGenerator(svgElement, config);
