@@ -2,6 +2,8 @@ export interface SwiftUIGeneratorConfig {
   structName?: string;
   precision?: number;
   indentationSize?: number;
+  /** Should SVG optimization before conversion be disabled or not. When disabled converter has higher chance of breaking. */
+  disableOptimization?: boolean;
 }
 
 export interface TranspilerOptions {
