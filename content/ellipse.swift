@@ -3,7 +3,7 @@ struct EllipseShape: Shape {
         var path = Path()
         let width = rect.size.width
         let height = rect.size.height
-        path.addEllipse(in: CGRect(x: 0, y: 0, width: width, height: height))
+        path.addEllipse(in: CGRect(x: 0.075*width, y: 0.26*height, width: 0.75*width, height: 0.68*height))
         return path
     }
 }
