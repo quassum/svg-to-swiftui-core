@@ -2,7 +2,7 @@
 
 [![Build](https://img.shields.io/github/workflow/status/quassummanus/svg-to-swiftui-core/Node.js%20CI)](https://github.com/quassummanus/svg-to-swiftui-core/actions)
 [![Version](https://img.shields.io/npm/v/svg-to-swiftui-core.svg)](https://npmjs.org/package/svg-to-swiftui-core)
-[![Downloads/week](https://img.shields.io/npm/dw/svg-to-swiftui-core.svg)](https://npmjs.org/package/svg-to-swiftui-core)
+[![Downloads/month](https://img.shields.io/npm/dm/svg-to-swiftui-core.svg)](https://npmjs.org/package/svg-to-swiftui-core)
 [![License](https://img.shields.io/npm/l/svg-to-swiftui-core.svg)](LICENSE.md)
 
 This is the core transpiler code that you can use to convert raw SVG code into SwiftUI Shape struct that you can use directly in your SwiftUI Project.
@@ -38,6 +38,7 @@ You can run the tests by running following command:
 - [ ] SVG `<g>` element with autmatic grouping into sub-paths in SwiftUI
 - [ ] SVG `<polygon>` element
 - [ ] SVG `<polyline>` element
+- [ ] AVG `<arc>` element
 - [ ] Automatic animation support
 
 ## Built With
