@@ -24,7 +24,7 @@ test('convert-ellipse', () => {
   const rawSVG = loadContentFile('ellipse.svg');
   const expectedResult = loadContentFile('ellipse.swift');
   const result = convert(rawSVG, {
-    precision: 2,
+    precision: 4,
     structName: 'EllipseShape',
   });
   expect(result).toBe(expectedResult);
