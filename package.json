@@ -15,6 +15,9 @@
     "swift",
     "converter"
   ],
+  "engines": {
+    "node": ">=12"
+  },
   "author": {
     "name": "Antoni Silvestrovic",
     "email": "antoni.silvestrovic@gmail.com",
