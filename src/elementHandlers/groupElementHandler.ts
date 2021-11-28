@@ -1,7 +1,7 @@
-import {ElementNode, RootNode} from 'svg-parser';
-import {extractStyle} from '../styleUtils';
-import {TranspilerOptions} from '../types';
-import {handleElement} from './index';
+import { ElementNode, RootNode } from 'svg-parser';
+import { extractStyle } from '../styleUtils';
+import { TranspilerOptions } from '../types';
+import { handleElement } from './index';
 
 /**
  * Transforms SVG group element into SwiftUI Shape by
@@ -13,7 +13,7 @@ export default function handleGroupElement(
   element: ElementNode | RootNode,
   options: TranspilerOptions
 ): string[] {
-  const {children} = element;
+  const { children } = element;
   const style = element.type === 'element' ? extractStyle(element) : {};
 
   // For each child run the generator, accumulate swift string and return it.

@@ -38,7 +38,7 @@
     "lint": "eslint",
     "clean": "rimraf ./build",
     "build": "spack",
-    "fix": "prettier --fix",
+    "fix": "prettier --write ./src/**/*.ts",
     "prepare": "yarn build",
     "pretest": "yarn build",
     "prepublishOnly": "yarn test && yarn lint",
@@ -60,6 +60,7 @@
     "swc-loader": "^0.1.15"
   },
   "dependencies": {
+    "@quassum/prettier-config": "^1.0.0",
     "svg-parser": "^2.0.4",
     "svg-pathdata": "^6.0.3"
   }

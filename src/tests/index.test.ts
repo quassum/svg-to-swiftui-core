@@ -1,5 +1,5 @@
-import {convert} from '../index';
-import {loadContentFile} from './utils';
+import { convert } from '../index';
+import { loadContentFile } from './utils';
 
 test('conversion-1', () => {
   const rawSVG = loadContentFile('plusRounded.svg');

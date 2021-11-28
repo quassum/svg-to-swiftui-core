@@ -1,5 +1,5 @@
-import {ElementNode} from 'svg-parser';
-import {TranspilerOptions} from '../types';
+import { ElementNode } from 'svg-parser';
+import { TranspilerOptions } from '../types';
 import handleCircleElement from './circleElementHandler';
 import handleEllipseElement from './ellipseElementHandler';
 import handleGroupElement from './groupElementHandler';

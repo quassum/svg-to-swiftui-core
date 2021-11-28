@@ -1,5 +1,5 @@
-import {clampNormalisedSizeProduct, stringifyRectValues} from '../../utils';
-import {SwiftGenerator} from '../types';
+import { clampNormalisedSizeProduct, stringifyRectValues } from '../../utils';
+import { SwiftGenerator } from '../types';
 
 export const generateQuadCurveSwift: SwiftGenerator<{
   x1: number;

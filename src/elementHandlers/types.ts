@@ -1,4 +1,4 @@
-import {TranspilerOptions} from '../types';
+import { TranspilerOptions } from '../types';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export type SwiftGenerator<DataType> = (

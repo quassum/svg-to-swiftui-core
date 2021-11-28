@@ -1,4 +1,4 @@
-import {filterStyleProps} from '../styleUtils';
+import { filterStyleProps } from '../styleUtils';
 
 test('remove non-style props', () => {
   const ogirinalProperties = {

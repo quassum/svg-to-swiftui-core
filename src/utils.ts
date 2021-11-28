@@ -1,5 +1,5 @@
-import {ElementNode, RootNode, TextNode} from 'svg-parser';
-import {SVGElementProperties, ViewBoxData} from './types';
+import { ElementNode, RootNode, TextNode } from 'svg-parser';
+import { SVGElementProperties, ViewBoxData } from './types';
 
 /**
  * Converts number with unit suffix to pixels.
@@ -66,9 +66,9 @@ export function extractSVGProperties(svg: ElementNode): SVGElementProperties {
   // Validiate and parse view box.
   const viewBoxElements = String(viewBox)
     .split(' ')
-    .map(n => parseFloat(n));
+    .map((n) => parseFloat(n));
   const [vbx, vby, vbWidth, vbHeight] = viewBoxElements;
-  const viewBoxValid = viewBoxElements.every(value => !isNaN(value));
+  const viewBoxValid = viewBoxElements.every((value) => !isNaN(value));
 
   // Parse width and height with units.
   const widthUnit = convertToPixels(width || vbWidth);
@@ -78,8 +78,8 @@ export function extractSVGProperties(svg: ElementNode): SVGElementProperties {
     width: widthUnit,
     height: heightUnit,
     viewBox: viewBoxValid
-      ? {x: vbx, y: vby, width: vbWidth, height: vbHeight} // If view box is provided, use this.
-      : {x: 0, y: 0, width: widthUnit, height: heightUnit}, // Otherwise use width and height.
+      ? { x: vbx, y: vby, width: vbWidth, height: vbHeight } // If view box is provided, use this.
+      : { x: 0, y: 0, width: widthUnit, height: heightUnit }, // Otherwise use width and height.
   };
 }
 

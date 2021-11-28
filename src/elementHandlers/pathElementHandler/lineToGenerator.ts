@@ -1,7 +1,7 @@
-import {clampNormalisedSizeProduct, stringifyRectValues} from '../../utils';
-import {SwiftGenerator} from '../types';
+import { clampNormalisedSizeProduct, stringifyRectValues } from '../../utils';
+import { SwiftGenerator } from '../types';
 
-export const generateLineToSwift: SwiftGenerator<{x: number; y: number}> = (
+export const generateLineToSwift: SwiftGenerator<{ x: number; y: number }> = (
   data,
   options
 ) => {

@@ -1,4 +1,4 @@
-import {SwiftUIGeneratorConfig} from './types';
+import { SwiftUIGeneratorConfig } from './types';
 
 export const generateSwiftUIShape = (
   body: string[],

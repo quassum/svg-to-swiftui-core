@@ -1,10 +1,10 @@
-import {ElementNode, parse} from 'svg-parser';
-import {generateSwiftUIShape} from './stubs';
-import {SwiftUIGeneratorConfig, TranspilerOptions} from './types';
+import { ElementNode, parse } from 'svg-parser';
+import { generateSwiftUIShape } from './stubs';
+import { SwiftUIGeneratorConfig, TranspilerOptions } from './types';
 
-import {handleElement} from './elementHandlers';
-import {extractSVGProperties, getSVGElement} from './utils';
-import {DEFAULT_CONFIG} from './constants';
+import { handleElement } from './elementHandlers';
+import { extractSVGProperties, getSVGElement } from './utils';
+import { DEFAULT_CONFIG } from './constants';
 
 /**
  * This function converts SVG string into SwiftUI

@@ -1,17 +1,17 @@
-import {SVGPathData} from 'svg-pathdata';
-import {ElementNode} from 'svg-parser';
+import { SVGPathData } from 'svg-pathdata';
+import { ElementNode } from 'svg-parser';
 
-import {TranspilerOptions} from '../../types';
-import {SwiftGenerator} from '../types';
+import { TranspilerOptions } from '../../types';
+import { SwiftGenerator } from '../types';
 
-import {SVGPathAttributes} from '../../svgTypes';
-import {SVGCommand} from 'svg-pathdata/lib/types';
+import { SVGPathAttributes } from '../../svgTypes';
+import { SVGCommand } from 'svg-pathdata/lib/types';
 
-import {generateMoveToSwift} from './moveToGenerator';
-import {generateLineToSwift} from './lineToGenerator';
-import {generateClosePathSwift} from './closePathGenerator';
-import {generateCubicCurveSwift} from './cubicCurveGenerator';
-import {generateQuadCurveSwift} from './quadCurveGenerator';
+import { generateMoveToSwift } from './moveToGenerator';
+import { generateLineToSwift } from './lineToGenerator';
+import { generateClosePathSwift } from './closePathGenerator';
+import { generateCubicCurveSwift } from './cubicCurveGenerator';
+import { generateQuadCurveSwift } from './quadCurveGenerator';
 
 /**
  * Converts SVG Path element to SwiftUI path string.
@@ -58,21 +58,21 @@ const convertPathToSwift: SwiftGenerator<SVGCommand[]> = (data, options) => {
       // Command M
       case SVGPathData.MOVE_TO: {
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        const {type, relative, ...d} = el;
+        const { type, relative, ...d } = el;
         swiftAccumulator.push(...generateMoveToSwift(d, options));
         break;
       }
       // Command L
       case SVGPathData.LINE_TO: {
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        const {type, relative, ...d} = el;
+        const { type, relative, ...d } = el;
         swiftAccumulator.push(...generateLineToSwift(d, options));
         break;
       }
       // Command H
       case SVGPathData.HORIZ_LINE_TO: {
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        const {type, relative, ...d} = el;
+        const { type, relative, ...d } = el;
 
         let y = 0;
 
@@ -97,13 +97,13 @@ const convertPathToSwift: SwiftGenerator<SVGCommand[]> = (data, options) => {
           }
         }
 
-        swiftAccumulator.push(...generateLineToSwift({x: d.x, y}, options));
+        swiftAccumulator.push(...generateLineToSwift({ x: d.x, y }, options));
         break;
       }
       // Command V
       case SVGPathData.VERT_LINE_TO: {
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        const {type, relative, ...d} = el;
+        const { type, relative, ...d } = el;
 
         let x = 0;
 
@@ -129,7 +129,7 @@ const convertPathToSwift: SwiftGenerator<SVGCommand[]> = (data, options) => {
           }
         }
 
-        swiftAccumulator.push(...generateLineToSwift({x, y: d.y}, options));
+        swiftAccumulator.push(...generateLineToSwift({ x, y: d.y }, options));
         break;
       }
       // Command Z
@@ -140,14 +140,14 @@ const convertPathToSwift: SwiftGenerator<SVGCommand[]> = (data, options) => {
       // Command Q
       case SVGPathData.QUAD_TO: {
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        const {type, relative, ...d} = el;
+        const { type, relative, ...d } = el;
         swiftAccumulator.push(...generateQuadCurveSwift(d, options));
         break;
       }
       // Command T
       case SVGPathData.SMOOTH_QUAD_TO: {
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        const {type, relative, ...d} = el;
+        const { type, relative, ...d } = el;
         const prevElement = data[i - 1];
 
         // Setup first control point
@@ -160,21 +160,21 @@ const convertPathToSwift: SwiftGenerator<SVGCommand[]> = (data, options) => {
         }
 
         swiftAccumulator.push(
-          ...generateQuadCurveSwift({...d, x1, y1}, options)
+          ...generateQuadCurveSwift({ ...d, x1, y1 }, options)
         );
         break;
       }
       // Command C
       case SVGPathData.CURVE_TO: {
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        const {type, relative, ...d} = el;
+        const { type, relative, ...d } = el;
         swiftAccumulator.push(...generateCubicCurveSwift(d, options));
         break;
       }
       // Command S
       case SVGPathData.SMOOTH_CURVE_TO: {
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        const {type, relative, ...d} = el;
+        const { type, relative, ...d } = el;
         const prevElement = data[i - 1];
 
         // Setup first control point
@@ -189,7 +189,7 @@ const convertPathToSwift: SwiftGenerator<SVGCommand[]> = (data, options) => {
           y1 = prevElement.y + (prevElement.y - prevElement.y2);
         }
 
-        const swiftLines = generateCubicCurveSwift({...d, x1, y1}, options);
+        const swiftLines = generateCubicCurveSwift({ ...d, x1, y1 }, options);
 
         swiftAccumulator.push(...swiftLines);
         break;
@@ -197,7 +197,7 @@ const convertPathToSwift: SwiftGenerator<SVGCommand[]> = (data, options) => {
       // Command A
       case SVGPathData.ARC: {
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        const {type, relative, ...d} = el;
+        const { type, relative, ...d } = el;
         // TODO: Implement this commend
         console.error('Arc is not supported yet');
         break;

@@ -1,6 +1,6 @@
-import {ElementNode} from 'svg-parser';
-import {SVGEllipseAttributes} from '../svgTypes';
-import {TranspilerOptions} from '../types';
+import { ElementNode } from 'svg-parser';
+import { SVGEllipseAttributes } from '../svgTypes';
+import { TranspilerOptions } from '../types';
 import {
   clampNormalisedSizeProduct,
   normaliseRectValues,
@@ -42,7 +42,7 @@ export default function handleEllipseElement(
 
     // Normalization
     const normalizedRect = normaliseRectValues(
-      {x, y, width, height},
+      { x, y, width, height },
       options.viewBox
     );
 

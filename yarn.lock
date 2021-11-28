@@ -567,6 +567,11 @@
     "@nodelib/fs.scandir" "2.1.5"
     fastq "^1.6.0"
 
+"@quassum/prettier-config@^1.0.0":
+  version "1.0.0"
+  resolved "https://registry.npmjs.org/@quassum/prettier-config/-/prettier-config-1.0.0.tgz#6ca4edecbabfc6dd306083360d350164f9c246fa"
+  integrity sha512-8iL4XWdsScGTEOAlz+z8W261HcwRJQsosuoK+/450A1RX0Z9KrOvHOF/ukF82Ioab1KXkkz2a6BUvG4HqdjP0Q==
+
 "@sinonjs/commons@^1.7.0":
   version "1.8.3"
   resolved "https://registry.npmjs.org/@sinonjs/commons/-/commons-1.8.3.tgz#3802ddd21a50a949b6721ddd72da36e67e7f1b2d"

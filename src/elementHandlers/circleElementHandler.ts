@@ -1,6 +1,6 @@
-import {ElementNode} from 'svg-parser';
-import {SVGCircleAttributes} from '../svgTypes';
-import {TranspilerOptions} from '../types';
+import { ElementNode } from 'svg-parser';
+import { SVGCircleAttributes } from '../svgTypes';
+import { TranspilerOptions } from '../types';
 import {
   clampNormalisedSizeProduct,
   normaliseRectValues,
@@ -42,7 +42,7 @@ export default function handleCircleElement(
 
     // Normalise all values to be based on fraction of width/height.
     const normalisedRect = normaliseRectValues(
-      {x, y, width, height},
+      { x, y, width, height },
       options.viewBox
     );
 

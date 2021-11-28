@@ -1,5 +1,5 @@
-import {Properties} from 'hast';
-import {ElementNode} from 'svg-parser';
+import { Properties } from 'hast';
+import { ElementNode } from 'svg-parser';
 
 type StyleData = Record<string, string | number>;
 
@@ -34,9 +34,9 @@ export function parseStyle(style: string): StyleData {
   const styleArray = style
     .replace(/\s/g, '')
     .split(';')
-    .map(el => {
+    .map((el) => {
       const [property, value] = el.split(':');
-      return {property, value};
+      return { property, value };
     });
 
   // Remap array of {property, value} objects into a map.
@@ -54,7 +54,7 @@ export function parseStyle(style: string): StyleData {
  */
 export function filterStyleProps(props: Properties): StyleData {
   return Object.keys(props)
-    .filter(key => StylePropertiesSet.has(key))
+    .filter((key) => StylePropertiesSet.has(key))
     .reduce((obj, key) => {
       obj[key] = props[key];
       return obj;
