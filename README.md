@@ -33,7 +33,29 @@ You can run the tests by running following command:
 
 ## Roadmap
 
-- [x] SVG `<path>` element (except arc command)
+- [x] SVG `<path>` element
+  - [ ] Line commands
+    - [x] `M`
+    - [ ] `m`
+    - [x] `L`
+    - [ ] `l`
+    - [x] `H`
+    - [ ] `h`
+    - [x] `V`
+    - [ ] `v`
+    - [x] `Z`
+    - [ ] `z`
+  - [ ] Curve commands
+    - [ ] `C`
+    - [ ] `c`
+    - [ ] `S`
+    - [ ] `s`
+    - [ ] `Q`
+    - [ ] `q`
+    - [ ] `T`
+    - [ ] `t`
+    - [ ] `A`
+    - [ ] `a`
 - [x] SVG `<circle>` element
 - [x] SVG `<rect>` element
 - [x] SVG `<ellipse>` element
